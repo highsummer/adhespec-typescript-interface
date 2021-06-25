@@ -81,7 +81,7 @@ export interface HttpRestContract {
 
   url: string,
   method: "GET" | "POST" | "DELETE" | "PUT",
-  headers: DictionaryModel,
+  headers?: DictionaryModel,
   requestBody: Model,
   responses: {
     name: string,
