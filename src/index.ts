@@ -2,6 +2,7 @@ export type Model = BooleanModel | NumberModel | StringModel | ArrayModel | Tupl
 
 export interface ModelFieldCommon {
   comment?: string,
+  optional?: boolean,
 }
 
 export const BooleanModelTypeSignature = "model.boolean" as const;
