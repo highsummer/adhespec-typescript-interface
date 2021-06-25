@@ -1,0 +1,17 @@
+stages:
+  - publish
+
+publish:
+  stage: publish
+  image:
+    name: node:14.15.4-alpine3.12
+  script:
+    - export TAG=$(echo ${CI_JOB_STARTED_AT} | sed 's/[:T]/-/g')-${CI_COMMIT_SHA:0:10}
+    - npm config set @pace-on-cloud:registry https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/npm/
+    - npm config set '//gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/npm/:_authToken' "${NPM_TOKEN}"
+    - npm install --save-dev
+    - npm run build
+    - npm publish --tag ${TAG}
+  only:
+    variables:
+      - $CI_COMMIT_BRANCH == "main"
