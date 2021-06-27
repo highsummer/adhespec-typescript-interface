@@ -82,6 +82,7 @@ export interface SpecialModel extends ModelFieldCommon {
 }
 
 export interface HttpRestContract {
+  schemaId: "HttpRestContract.0.1.4",
   id: string,
   tags: string[],
   deprecated?: boolean,
