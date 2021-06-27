@@ -1,8 +1,9 @@
-export type Model = BooleanModel | NumberModel | StringModel | ArrayModel | TupleModel | DictionaryModel | MapModel | UnionModel | ModelReference;
+export type Model = BooleanModel | NumberModel | StringModel | ArrayModel | TupleModel | DictionaryModel | MapModel | UnionModel | ModelReference | SpecialModel;
 
 export interface ModelFieldCommon {
   comment?: string,
   optional?: boolean,
+  metadata?: { [p: string]: any },
 }
 
 export const BooleanModelTypeSignature = "model.boolean" as const;
@@ -73,6 +74,11 @@ export const ModelReferenceTypeSignature = "model.reference" as const;
 export interface ModelReference extends ModelFieldCommon {
   type: typeof ModelReferenceTypeSignature,
   id: string,
+}
+
+export const SpecialModelTypeSignature = "model.special" as const;
+export interface SpecialModel extends ModelFieldCommon {
+  type: typeof SpecialModelTypeSignature,
 }
 
 export interface HttpRestContract {
