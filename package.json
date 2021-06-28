@@ -1,6 +1,6 @@
 {
-  "name": "@pace-on-cloud/contract",
-  "version": "0.1.4",
+  "name": "adhespec-typescript-interface",
+  "version": "0.1.0",
   "description": "",
   "main": "lib",
   "types": "lib",
