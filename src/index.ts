@@ -26,7 +26,7 @@ export const StringModelTypeSignature = "model.string" as const;
 export interface StringModel extends ModelFieldCommon {
   type: typeof StringModelTypeSignature,
   encoding?: "utf-8",
-  format?: "string" | "date-ISO8601" | "datetime-ISO8601" | "bytes-base64",
+  format?: "string" | "date-ISO8601" | "datetime-ISO8601" | "bytes-base64" | "bigint",
   constraints?: {
     minLength?: number,
     maxLength?: number,
