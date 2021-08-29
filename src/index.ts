@@ -1,4 +1,15 @@
-export type Model = BooleanModel | NumberModel | StringModel | ArrayModel | TupleModel | DictionaryModel | MapModel | UnionModel | ModelReference | SpecialModel;
+export type Model =
+  | BooleanModel.Type
+  | NumberModel.Type
+  | StringModel.Type
+  | ArrayModel.Type
+  | TupleModel.Type
+  | DictionaryModel.Type
+  | MapModel.Type
+  | UnionModel.Type
+  | ModelReference.Type
+  | CyclicReferenceModel.Type
+  | SpecialModel.Type;
 
 export interface ModelFieldCommon {
   comment?: string,
@@ -6,90 +17,151 @@ export interface ModelFieldCommon {
   metadata?: { [p: string]: any },
 }
 
-export const BooleanModelTypeSignature = "model.boolean" as const;
-export interface BooleanModel extends ModelFieldCommon {
-  type: typeof BooleanModelTypeSignature,
+export namespace BooleanModel {
+  export const signature = "model.boolean" as const;
+  export interface Type extends ModelFieldCommon {
+    type: typeof signature,
+  }
+  export function is(x: Model): x is Type {
+    return x.type === signature
+  }
 }
 
-export const NumberModelTypeSignature = "model.number" as const;
-export interface NumberModel extends ModelFieldCommon {
-  type: typeof NumberModelTypeSignature,
-  format?: "double",
-  constraints?: {
-    min?: number,
-    max?: number,
-    enum?: number[],
-  },
+export namespace NumberModel {
+  export const signature = "model.number" as const;
+  export interface Type extends ModelFieldCommon {
+    type: typeof signature,
+    format?: "double",
+    constraints?: {
+      min?: number,
+      max?: number,
+      enum?: number[],
+    },
+  }
+  export function is(x: Model): x is Type {
+    return x.type === signature
+  }
 }
 
-export const StringModelTypeSignature = "model.string" as const;
-export interface StringModel extends ModelFieldCommon {
-  type: typeof StringModelTypeSignature,
-  encoding?: "utf-8",
-  format?: "string" | "date-ISO8601" | "datetime-ISO8601" | "bytes-base64" | "bigint",
-  constraints?: {
-    minLength?: number,
-    maxLength?: number,
-    enum?: string[],
-    regex?: string,
-  },
+export namespace StringModel {
+  export const signature = "model.string" as const;
+  export interface Type extends ModelFieldCommon {
+    type: typeof signature,
+    encoding?: "utf-8",
+    format?: "string" | "date-ISO8601" | "datetime-ISO8601" | "bytes-base64" | "bigint",
+    constraints?: {
+      minLength?: number,
+      maxLength?: number,
+      enum?: string[],
+      regex?: string,
+    },
+  }
+  export function is(x: Model): x is Type {
+    return x.type === signature
+  }
 }
 
-export const ArrayModelTypeSignature = "model.array" as const;
-export interface ArrayModel extends ModelFieldCommon {
-  type: typeof ArrayModelTypeSignature,
-  elements: Model,
-  constraints?: {
-    minLength?: number,
-    maxLength?: number,
-  },
+export namespace ArrayModel {
+  export const signature = "model.array" as const;
+  export interface Type extends ModelFieldCommon {
+    type: typeof signature,
+    elements: Model,
+    constraints?: {
+      minLength?: number,
+      maxLength?: number,
+    },
+  }
+  export function is(x: Model): x is Type {
+    return x.type === signature
+  }
 }
 
-export const TupleModelTypeSignature = "model.tuple" as const;
-export interface TupleModel extends ModelFieldCommon {
-  type: typeof TupleModelTypeSignature,
-  elements: Model[],
+export namespace TupleModel {
+  export const signature = "model.tuple" as const;
+  export interface Type extends ModelFieldCommon {
+    type: typeof signature,
+    elements: Model[],
+  }
+  export function is(x: Model): x is Type {
+    return x.type === signature
+  }
 }
 
-export const DictionaryModelTypeSignature = "model.dictionary" as const;
-export interface DictionaryModel extends ModelFieldCommon {
-  type: typeof DictionaryModelTypeSignature,
-  fields: [string, Model][],
+export namespace DictionaryModel {
+  export const signature = "model.dictionary" as const;
+  export interface Type extends ModelFieldCommon {
+    type: typeof signature,
+    fields: [string, Model][],
+  }
+  export function is(x: Model): x is Type {
+    return x.type === signature
+  }
 }
 
-export const MapModelTypeSignature = "model.map" as const;
-export interface MapModel extends ModelFieldCommon {
-  type: typeof MapModelTypeSignature,
-  keyType: Model,
-  valueType: Model,
+export namespace MapModel {
+  export const signature = "model.map" as const;
+  export interface Type extends ModelFieldCommon {
+    type: typeof signature,
+    keyType: Model,
+    valueType: Model,
+  }
+  export function is(x: Model): x is Type {
+    return x.type === signature
+  }
 }
 
-export const UnionModelTypeSignature = "model.union" as const;
-export interface UnionModel extends ModelFieldCommon {
-  type: typeof UnionModelTypeSignature,
-  elements: Model[],
+export namespace UnionModel {
+  export const signature = "model.union" as const;
+  export interface Type extends ModelFieldCommon {
+    type: typeof signature,
+    elements: Model[],
+  }
+  export function is(x: Model): x is Type {
+    return x.type === signature
+  }
 }
 
-export const ModelReferenceTypeSignature = "model.reference" as const;
-export interface ModelReference extends ModelFieldCommon {
-  type: typeof ModelReferenceTypeSignature,
-  id: string,
+export namespace ModelReference {
+  export const signature = "model.reference" as const;
+  export interface Type extends ModelFieldCommon {
+    type: typeof signature,
+    id: string,
+  }
+  export function is(x: Model): x is Type {
+    return x.type === signature
+  }
 }
 
-export const SpecialModelTypeSignature = "model.special" as const;
-export interface SpecialModel extends ModelFieldCommon {
-  type: typeof SpecialModelTypeSignature,
+export namespace CyclicReferenceModel {
+  export const signature = "model.cyclic" as const;
+  export interface Type extends ModelFieldCommon {
+    type: typeof signature,
+    path: string,
+  }
+  export function is(x: Model): x is Type {
+    return x.type === signature
+  }
+}
+
+export namespace SpecialModel {
+  export const signature = "model.special" as const;
+  export interface Type extends ModelFieldCommon {
+    type: typeof signature,
+  }
+  export function is(x: Model): x is Type {
+    return x.type === signature
+  }
 }
 
 export interface HttpRestContract {
-  schemaId: "HttpRestContract.0.1.4",
+  schemaId: "HttpRestContract.0.2.0",
   id: string,
   tags: string[],
   deprecated?: boolean,
 
   url: string,
   method: "GET" | "POST" | "DELETE" | "PUT",
-  headers?: DictionaryModel,
+  headers?: DictionaryModel.Type,
   requestBody: Model,
   responses: {
     name: string,
